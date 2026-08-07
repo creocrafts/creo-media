@@ -1,71 +1,126 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creo Crafts</title>
-<meta name="description" content="Artist sketchbooks and watercolour paper. Designed in Illinois, made in India.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creo Crafts — Sketchbooks &amp; Watercolour Paper</title>
+<meta name="description" content="Artist sketchbooks and watercolour paper. Khadi-textured hardcovers, Wire-O lay-flat notebooks, cold-pressed watercolour sheets. Designed in Illinois, made in India.">
+<meta property="og:title" content="Creo Crafts">
+<meta property="og:description" content="Sketchbooks and watercolour paper. Designed in Illinois, made in India.">
+<meta property="og:image" content="https://creocraftsstore.com/img/site/khadi-closed.jpg">
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    margin:0; padding:32px 20px 56px;
-    font:16px/1.5 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
-    background:#faf7f2; color:#2b2620;
-    display:flex; flex-direction:column; align-items:center;
-  }
-  @media (prefers-color-scheme: dark) {
-    body { background:#17150f; color:#ece7dd; }
-    .card { background:#221f18 !important; border-color:#3a3428 !important; }
-    .blurb { color:#a89f8d !important; }
-  }
-  header { text-align:center; margin-bottom:28px; max-width:420px; }
-  h1 { font-size:26px; margin:0 0 6px; letter-spacing:-.02em; }
-  .tag { margin:0; font-size:14px; opacity:.72; }
-  main { width:100%; max-width:420px; display:flex; flex-direction:column; gap:12px; }
-  .card {
-    display:flex; flex-direction:column; gap:3px;
-    padding:16px 18px; border-radius:14px;
-    background:#fff; border:1px solid #e6dfd2;
-    text-decoration:none; color:inherit;
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .card:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.08); }
-  .name { font-weight:600; }
-  .blurb { font-size:14px; color:#7c7263; }
-  .go { font-size:13px; margin-top:6px; opacity:.75; }
-  footer { margin-top:34px; font-size:12px; opacity:.6; text-align:center; max-width:420px; }
+:root{--ink:#241f19;--muted:#7b7060;--line:#e4dbcc;--bg:#faf6f0;--card:#fff;--accent:#8a6a3f}
+@media(prefers-color-scheme:dark){:root{--ink:#efe9df;--muted:#a49a88;--line:#3a3327;--bg:#15130e;--card:#1e1b15}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font:17px/1.65 ui-serif,Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header{padding:64px 0 40px;text-align:center}
+h1{font-size:clamp(30px,5vw,46px);margin:0 0 12px;letter-spacing:-.02em;font-weight:600}
+.lede{max-width:34rem;margin:0 auto;color:var(--muted);font-size:18px}
+.rule{width:52px;height:1px;background:var(--accent);margin:26px auto}
+h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+ font-family:ui-sans-serif,system-ui,sans-serif;font-weight:600;margin:56px 0 22px}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+ display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.09)}
+.shot{background:#fff;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;padding:22px}
+.shot img{max-width:100%;max-height:100%;object-fit:contain}
+.body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+h3{margin:0 0 3px;font-size:21px;font-weight:600}
+.size{margin:0 0 12px;font-size:13px;color:var(--muted);
+ font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em}
+.claim{margin:0 0 16px;font-size:16px}
+.specs{margin:0 0 20px;padding-left:18px;color:var(--muted);font-size:14.5px;
+ font-family:ui-sans-serif,system-ui,sans-serif}
+.specs li{margin:3px 0}
+.buy{margin-top:auto;display:inline-block;text-align:center;padding:12px 18px;border-radius:10px;
+ background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;font-size:15px;
+ font-family:ui-sans-serif,system-ui,sans-serif}
+.buy:hover{background:var(--accent)}
+.story{max-width:38rem;margin:0 auto;text-align:center}
+.story p{color:var(--muted)}
+footer{margin:72px 0 44px;text-align:center;color:var(--muted);font-size:13.5px;
+ font-family:ui-sans-serif,system-ui,sans-serif}
+footer a{color:inherit}
 </style></head>
 <body>
+<div class="wrap">
   <header>
     <h1>Creo Crafts</h1>
-    <p class="tag">Sketchbooks &amp; watercolour paper.<br>Designed in Illinois &middot; made in India.</p>
+    <p class="lede">Sketchbooks and watercolour paper for people who fill them.<br>
+    Designed in Illinois. Made in India.</p>
+    <div class="rule"></div>
   </header>
-  <main>
-      <a class="card" href="https://www.amazon.com/dp/B0DZS7HJ4P?maas=maas_adg_7811DEB21565D3324AF1B83907D06409_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
-        <span class="name">Khadi Hardcover A4 Landscape</span>
-        <span class="blurb">Khadi-textured hardcover · 200 GSM · lies flat</span>
-        <span class="go">Shop on Amazon &rsaquo;</span>
-      </a>
-      <a class="card" href="https://www.amazon.com/dp/B0F5G68QTR?maas=maas_adg_0D15A10AAFC64510BD312FB9BE6027FB_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
-        <span class="name">SketchO Sketchbook A4 Landscape</span>
-        <span class="blurb">Wire-O, lay-flat, 128 pages · perforated</span>
-        <span class="go">Shop on Amazon &rsaquo;</span>
-      </a>
-      <a class="card" href="https://www.amazon.com/dp/B0DZSH1MKD?maas=maas_adg_34A6B8569FF299BE9F0F6F4197BA867E_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
-        <span class="name">A5 Square Hardcover Khadi</span>
-        <span class="blurb">The A5. Same cover, pocketable</span>
-        <span class="go">Shop on Amazon &rsaquo;</span>
-      </a>
-      <a class="card" href="https://www.amazon.com/dp/B0DZSDW2HZ?maas=maas_adg_436F5254CD8006DCCB734CE93460B6CA_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
-        <span class="name">Pro Watercolor 300GSM A5 50sh</span>
-        <span class="blurb">300 GSM cold pressed · 50 sheets</span>
-        <span class="go">Shop on Amazon &rsaquo;</span>
-      </a>
-      <a class="card" href="https://www.amazon.com/dp/B0F8PGB262?maas=maas_adg_5B0A838D8E79FDDDE8DEE96162773385_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
-        <span class="name">SketchO WireO A5 Landscape</span>
-        <span class="blurb">The A5 Wire-O · elastic closure</span>
-        <span class="go">Shop on Amazon &rsaquo;</span>
-      </a>
-  </main>
-  <footer>As an Amazon seller, links go to our Amazon listings.</footer>
+
+  <h2>The range</h2>
+  <div class="grid">
+    <article class="card">
+      <div class="shot"><img src="img/site/khadi-closed.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy"></div>
+      <div class="body">
+        <h3>Khadi Hardcover Sketchbook</h3>
+        <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
+        <p class="claim">A khadi-textured cover over rigid board, and paper heavy enough to take a wash.</p>
+        <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li><li>Pencil, ink, charcoal, marker, light watercolour</li></ul>
+        <a class="buy" href="https://www.amazon.com/dp/B0DZS7HJ4P?maas=maas_adg_7811DEB21565D3324AF1B83907D06409_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="shot"><img src="img/site/khadi-open.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy"></div>
+      <div class="body">
+        <h3>Khadi Hardcover Sketchbook</h3>
+        <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
+        <p class="claim">The same cover and paper, sized to carry.</p>
+        <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li></ul>
+        <a class="buy" href="https://www.amazon.com/dp/B0DZSH1MKD?maas=maas_adg_34A6B8569FF299BE9F0F6F4197BA867E_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="shot"><img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy"></div>
+      <div class="body">
+        <h3>SketchO Wire-O Sketchbook</h3>
+        <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
+        <p class="claim">Wire-O binding that folds a full 360°, with pages that tear out clean.</p>
+        <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated tear-out pages</li><li>Elastic closure</li><li>Black textured hardcover</li></ul>
+        <a class="buy" href="https://www.amazon.com/dp/B0F5G68QTR?maas=maas_adg_0D15A10AAFC64510BD312FB9BE6027FB_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="shot"><img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy"></div>
+      <div class="body">
+        <h3>SketchO Wire-O Sketchbook</h3>
+        <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
+        <p class="claim">The pocket version of the same lay-flat notebook.</p>
+        <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated pages</li><li>Elastic closure</li></ul>
+        <a class="buy" href="https://www.amazon.com/dp/B0F8PGB262?maas=maas_adg_5B0A838D8E79FDDDE8DEE96162773385_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="shot"><img src="img/site/khadi-closed.jpg" alt="Watercolour Paper" loading="lazy"></div>
+      <div class="body">
+        <h3>Watercolour Paper</h3>
+        <p class="size">A5 · 300 GSM · 50 sheets</p>
+        <p class="claim">Heavyweight cold-pressed sheets, sized inside and out to resist warping.</p>
+        <ul class="specs"><li>300 GSM, cold pressed</li><li>Natural white</li><li>Both sides usable</li><li>Acid-free and pH neutral</li><li>Watercolour, gouache, poster colour</li></ul>
+        <a class="buy" href="https://www.amazon.com/dp/B0DZSDW2HZ?maas=maas_adg_436F5254CD8006DCCB734CE93460B6CA_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
+      </div>
+    </article>
+  </div>
+
+  <h2>What we make</h2>
+  <div class="story">
+    <p>Four papers, each honest about what it is. A khadi-textured hardcover
+    with 200 GSM cartridge inside, heavy enough for ink and a light wash. A
+    Wire-O notebook that folds flat and tears out clean. Cold-pressed
+    watercolour sheets, sized inside and out so they take water without
+    buckling. And 100% cotton rag for the work you intend to keep.</p>
+    <p>We sell through Amazon, so delivery, returns and support are handled
+    there.</p>
+  </div>
+
+  <footer>
+    <p>Creo Crafts LLC · Illinois, USA<br>
+    <a href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">@creocraftsofficial</a></p>
+  </footer>
+</div>
 </body></html>
