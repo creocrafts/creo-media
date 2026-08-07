@@ -4,123 +4,365 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Creo Crafts — Sketchbooks &amp; Watercolour Paper</title>
 <meta name="description" content="Artist sketchbooks and watercolour paper. Khadi-textured hardcovers, Wire-O lay-flat notebooks, cold-pressed watercolour sheets. Designed in Illinois, made in India.">
+<meta name="theme-color" content="#1F4643">
 <meta property="og:title" content="Creo Crafts">
 <meta property="og:description" content="Sketchbooks and watercolour paper. Designed in Illinois, made in India.">
 <meta property="og:image" content="https://creocraftsstore.com/img/site/khadi-closed.jpg">
+<link rel="icon" href="img/site/mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#241f19;--muted:#7b7060;--line:#e4dbcc;--bg:#faf6f0;--card:#fff;--accent:#8a6a3f}
-@media(prefers-color-scheme:dark){:root{--ink:#efe9df;--muted:#a49a88;--line:#3a3327;--bg:#15130e;--card:#1e1b15}}
+/* Palette is the logo's own. Cream and teal are exact sampled pixels; marigold
+   and jade are read off the flower and its leaves. */
+:root{
+  --cream:#FEEBA6; --cream-soft:#FFF7DE; --paper:#FFFDF6;
+  --teal:#1F4643; --teal-deep:#12302E; --teal-lift:#2C6460;
+  --gold:#F2A93B; --gold-deep:#DC8C15;
+  --jade:#2FB89A; --rust:#E2653C;
+  --ink:var(--teal); --muted:#5F7C79; --card:var(--paper);
+  --bg:var(--cream-soft); --line:rgba(31,70,67,.13);
+  /* Edge and hard-shadow colours are their own tokens because the offset
+     shadow is the whole point of the style, and teal-on-dark is invisible. */
+  --edge:var(--teal); --drop:var(--teal);
+  --shadow:0 18px 44px -20px rgba(18,48,46,.42);
+  --display:"Fraunces",ui-serif,Georgia,serif;
+  --sans:"Outfit",ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+/* The dark variant stays a deep teal. The previous build let the browser paint
+   it near-black, which is what read as "a shitty website". */
+@media(prefers-color-scheme:dark){
+  :root{
+    --ink:#F4EBD2; --muted:#9FBDB8; --bg:#0E2523; --card:#163532;
+    --paper:#163532; --line:rgba(254,235,166,.16);
+    --shadow:0 18px 44px -20px rgba(0,0,0,.7);
+    --edge:#3C7A74; --drop:var(--gold);
+  }
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
- font:17px/1.65 ui-serif,Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-header{padding:64px 0 40px;text-align:center}
-h1{font-size:clamp(30px,5vw,46px);margin:0 0 12px;letter-spacing:-.02em;font-weight:600}
-.lede{max-width:34rem;margin:0 auto;color:var(--muted);font-size:18px}
-.rule{width:52px;height:1px;background:var(--accent);margin:26px auto}
-h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
- font-family:ui-sans-serif,system-ui,sans-serif;font-weight:600;margin:56px 0 22px}
-.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;
- display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.09)}
-.shot{background:#fff;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;padding:22px}
-.shot img{max-width:100%;max-height:100%;object-fit:contain}
-.body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
-h3{margin:0 0 3px;font-size:21px;font-weight:600}
-.size{margin:0 0 12px;font-size:13px;color:var(--muted);
- font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em}
-.claim{margin:0 0 16px;font-size:16px}
-.specs{margin:0 0 20px;padding-left:18px;color:var(--muted);font-size:14.5px;
- font-family:ui-sans-serif,system-ui,sans-serif}
-.specs li{margin:3px 0}
-.buy{margin-top:auto;display:inline-block;text-align:center;padding:12px 18px;border-radius:10px;
- background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;font-size:15px;
- font-family:ui-sans-serif,system-ui,sans-serif}
-.buy:hover{background:var(--accent)}
-.story{max-width:38rem;margin:0 auto;text-align:center}
-.story p{color:var(--muted)}
-footer{margin:72px 0 44px;text-align:center;color:var(--muted);font-size:13.5px;
- font-family:ui-sans-serif,system-ui,sans-serif}
-footer a{color:inherit}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+
+/* ---------------------------------------------------------------- hero -- */
+.hero{position:relative;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 12% 8%, var(--gold) 0%, transparent 52%),
+    radial-gradient(95% 85% at 88% 22%, var(--jade) 0%, transparent 55%),
+    linear-gradient(160deg, var(--cream) 0%, #FFD98A 58%, var(--gold) 100%);
+  padding:clamp(48px,8vw,104px) 0 clamp(96px,13vw,168px);color:var(--teal-deep)}
+/* Hard-edged geometry rather than soft blooms — the earlier blurred version
+   read as mushy. Crisp shapes hold their edge at any zoom. */
+.hero::before,.hero::after{content:"";position:absolute;pointer-events:none}
+.hero::before{width:38vw;height:38vw;right:-6vw;top:-10vw;background:var(--jade);
+  opacity:.30;transform:rotate(45deg)}
+/* An outline, not a fill — a translucent fill over the gradient went muddy. */
+.hero::after{width:24vw;height:24vw;right:14vw;bottom:-8vw;border-radius:50%;
+  border:2.5px solid var(--teal-deep);opacity:.22}
+.hero>*{position:relative;z-index:1}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brandbar img{height:clamp(46px,6vw,68px);width:auto;display:block}
+.navlinks{display:flex;gap:26px;font:600 15px/1 var(--sans);letter-spacing:.01em}
+.navlinks a{text-decoration:none;padding-bottom:3px;border-bottom:2px solid transparent;
+  transition:border-color .2s}
+.navlinks a:hover{border-color:var(--teal-deep)}
+h1{font:900 clamp(46px,9vw,102px)/0.95 var(--display);letter-spacing:-.035em;
+  margin:clamp(40px,7vw,76px) 0 0;max-width:15ch}
+h1 em{font-style:normal;display:block;color:#fff;
+  text-shadow:0 2px 0 rgba(31,70,67,.16)}
+.lede{max-width:33rem;margin:26px 0 0;font-size:clamp(18px,2.1vw,22px);line-height:1.5;
+  font-weight:500;color:#2A5450}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 30px;border-radius:4px;
+  font:600 16px/1 var(--sans);text-decoration:none;border:2.5px solid var(--teal-deep);
+  transition:transform .18s,box-shadow .18s}
+.btn-solid{background:var(--teal-deep);color:var(--cream);box-shadow:6px 6px 0 rgba(18,48,46,.28)}
+.btn-ghost{background:transparent}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 rgba(18,48,46,.30)}
+/* A torn-paper edge into the next section, rather than a hard rectangle. */
+.tear{position:absolute;left:0;right:0;bottom:-1px;height:clamp(40px,6vw,84px);
+  z-index:2;display:block}
+.tear path{fill:var(--bg)}
+
+/* ------------------------------------------------------------- marquee -- */
+.marquee{background:var(--teal);color:var(--cream);overflow:hidden;padding:14px 0;
+  font:600 14px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.marquee div{display:flex;gap:44px;width:max-content;animation:slide 32s linear infinite}
+.marquee span{white-space:nowrap;display:flex;align-items:center;gap:44px}
+.marquee span::after{content:"✦";color:var(--gold)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* -------------------------------------------------------------- shared -- */
+section{padding:clamp(56px,8vw,96px) 0}
+.eyebrow{font:700 13px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-deep);margin:0 0 14px}
+h2{font:700 clamp(32px,5vw,54px)/1.05 var(--display);letter-spacing:-.03em;margin:0 0 16px}
+.sub{max-width:40rem;color:var(--muted);font-size:18px;margin:0 0 44px}
+[data-reveal]{opacity:0;transform:translateY(30px);
+  transition:opacity .55s cubic-bezier(.2,.75,.3,1),transform .55s cubic-bezier(.2,.75,.3,1)}
+[data-reveal].in{opacity:1;transform:none}
+/* Rows enter from the side they sit on, so the cascade reads directionally. */
+.row[data-reveal]{transform:translate(-46px,26px)}
+.row:nth-child(even)[data-reveal]{transform:translate(46px,26px)}
+.row[data-reveal].in{transform:none}
+@media(prefers-reduced-motion:reduce){
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  .marquee div{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* -------------------------------------------------------- cascade rows -- */
+/* A staggered cascade rather than a flat grid: rows alternate side, step
+   progressively inward, and reveal in sequence — so scrolling the range feels
+   like moving through it rather than scanning a table. */
+.cascade{display:flex;flex-direction:column;gap:clamp(28px,4vw,52px)}
+.row{display:grid;grid-template-columns:1.05fr 1fr;align-items:stretch;
+  background:var(--card);border:2.5px solid var(--edge);border-radius:6px;
+  /* Hard offset shadow — sharp, graphic, no blur. */
+  box-shadow:10px 10px 0 var(--drop);overflow:hidden;
+  /* the cascade: each row steps in a little further than the last */
+  margin-left:calc((var(--i) - 1) * clamp(0px, 1.6vw, 30px));
+  margin-right:calc((5 - var(--i)) * clamp(0px, 0.7vw, 14px));
+  transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s}
+.row:nth-child(even){direction:rtl}
+.row:nth-child(even)>*{direction:ltr}
+.row:hover{transform:translate(-5px,-5px);box-shadow:16px 16px 0 var(--gold-deep)}
+.shot{position:relative;display:flex;align-items:center;justify-content:center;
+  padding:clamp(26px,3.4vw,48px);background:var(--tint);min-height:300px;
+  border-right:2.5px solid var(--edge)}
+.row:nth-child(even) .shot{border-right:0;border-left:2.5px solid var(--edge)}
+.shot img{max-width:100%;max-height:340px;object-fit:contain;
+  filter:drop-shadow(8px 10px 0 rgba(18,48,46,.22));
+  transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.row:hover .shot img{transform:translate(-4px,-6px) rotate(-1.5deg)}
+.kicker{position:absolute;top:0;left:0;background:var(--chip);color:var(--chip-ink);
+  font:700 11.5px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;
+  padding:10px 16px;border-right:2.5px solid var(--edge);border-bottom:2.5px solid var(--edge)}
+.row:nth-child(even) .kicker{left:auto;right:0;border-right:0;
+  border-left:2.5px solid var(--edge)}
+.num{display:block;font:900 clamp(40px,5vw,60px)/1 var(--display);
+  color:var(--pop);letter-spacing:-.04em;margin-bottom:8px}
+@media(max-width:760px){
+  .row{grid-template-columns:1fr;margin-left:0;margin-right:0;box-shadow:7px 7px 0 var(--drop)}
+  .row:nth-child(even){direction:ltr}
+  .shot{border-right:0;border-bottom:2.5px solid var(--edge);min-height:240px}
+  .row:nth-child(even) .shot{border-left:0;border-bottom:2.5px solid var(--edge)}
+  .row:nth-child(even) .kicker{left:0;right:auto;border-left:0;border-right:2.5px solid var(--edge)}
+}
+.hue-gold{--tint:linear-gradient(150deg,#FFE9AE,#F7C25B);--chip:var(--teal);--chip-ink:var(--cream);--pop:var(--gold-deep)}
+.hue-jade{--tint:linear-gradient(150deg,#C7F0E4,#5FCBB2);--chip:var(--teal);--chip-ink:var(--cream);--pop:#128573}
+.hue-teal{--tint:linear-gradient(150deg,#2C6460,#12302E);--chip:var(--gold);--chip-ink:var(--teal-deep);--pop:var(--jade)}
+.hue-rust{--tint:linear-gradient(150deg,#FFD3BE,#F08A5F);--chip:var(--teal);--chip-ink:var(--cream);--pop:var(--rust)}
+.hue-ink{--tint:linear-gradient(150deg,#D7EFEA,#8FC9C0);--chip:var(--teal);--chip-ink:var(--cream);--pop:var(--teal-lift)}
+.body{padding:clamp(26px,3vw,40px);display:flex;flex-direction:column;justify-content:center}
+.size{margin:0 0 6px;font:600 12.5px/1 var(--sans);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted)}
+h3{font:700 clamp(24px,2.8vw,32px)/1.1 var(--display);letter-spacing:-.03em;margin:0 0 12px}
+.claim{margin:0 0 20px;font-size:16.5px;color:var(--muted);line-height:1.55;max-width:34ch}
+.specs{margin:0 0 28px;padding:0;list-style:none;font-size:14.5px;display:grid;gap:0}
+.specs li{position:relative;padding:8px 0 8px 20px;color:var(--ink);opacity:.9;
+  border-top:1px solid var(--line)}
+.specs li:last-child{border-bottom:1px solid var(--line)}
+.specs li::before{content:"";position:absolute;left:0;top:1.15em;width:9px;height:9px;
+  background:var(--pop)}
+.buy{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;
+  padding:15px 26px;border-radius:3px;background:var(--teal);color:var(--cream);
+  border:2.5px solid var(--teal);text-decoration:none;font:600 15.5px/1 var(--sans);
+  transition:background .18s,color .18s,box-shadow .18s,transform .18s}
+.buy span{transition:transform .18s}
+.buy:hover{background:var(--gold-deep);border-color:var(--gold-deep);color:#fff;
+  transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--drop)}
+.buy:hover span{transform:translateX(5px)}
+
+/* --------------------------------------------------------------- story -- */
+.story{background:var(--teal);color:var(--cream);border-radius:6px;
+  border:2.5px solid var(--teal-deep);box-shadow:12px 12px 0 var(--gold);
+  padding:clamp(40px,6vw,72px);position:relative;overflow:hidden}
+.story::after{content:"";position:absolute;right:-110px;bottom:-110px;width:300px;height:300px;
+  background:var(--gold);opacity:.16;transform:rotate(45deg)}
+.story>*{position:relative;z-index:1}
+.story .eyebrow{color:var(--gold)}
+.story h2{max-width:18ch}
+.story p{max-width:42rem;color:rgba(254,235,166,.82);font-size:17.5px}
+.facts{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  margin-top:46px;padding-top:38px;border-top:1px solid rgba(254,235,166,.22)}
+.facts b{display:block;font:900 clamp(34px,4.4vw,46px)/1 var(--display);color:var(--gold)}
+.facts span{display:block;margin-top:8px;font-size:14.5px;color:rgba(254,235,166,.78)}
+
+/* -------------------------------------------------------------- footer -- */
+footer{padding:64px 0 56px;text-align:center}
+footer img{height:54px;margin-bottom:18px}
+footer p{color:var(--muted);font-size:14.5px;margin:6px 0}
+.social{display:inline-flex;gap:10px;align-items:center;margin-top:14px;padding:11px 22px;
+  border-radius:999px;border:1.5px solid var(--line);text-decoration:none;
+  font:600 15px/1 var(--sans);transition:background .2s,color .2s}
+.social:hover{background:var(--teal);color:var(--cream);border-color:var(--teal)}
 </style></head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Creo Crafts</h1>
-    <p class="lede">Sketchbooks and watercolour paper for people who fill them.<br>
-    Designed in Illinois. Made in India.</p>
-    <div class="rule"></div>
-  </header>
 
-  <h2>The range</h2>
-  <div class="grid">
-    <article class="card">
-      <div class="shot"><img src="img/site/khadi-closed.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy"></div>
-      <div class="body">
-        <h3>Khadi Hardcover Sketchbook</h3>
-        <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
-        <p class="claim">A khadi-textured cover over rigid board, and paper heavy enough to take a wash.</p>
-        <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li><li>Pencil, ink, charcoal, marker, light watercolour</li></ul>
-        <a class="buy" href="https://www.amazon.com/dp/B0DZS7HJ4P?maas=maas_adg_7811DEB21565D3324AF1B83907D06409_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
-      </div>
-    </article>
-    <article class="card">
-      <div class="shot"><img src="img/site/khadi-open.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy"></div>
-      <div class="body">
-        <h3>Khadi Hardcover Sketchbook</h3>
-        <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
-        <p class="claim">The same cover and paper, sized to carry.</p>
-        <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li></ul>
-        <a class="buy" href="https://www.amazon.com/dp/B0DZSH1MKD?maas=maas_adg_34A6B8569FF299BE9F0F6F4197BA867E_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
-      </div>
-    </article>
-    <article class="card">
-      <div class="shot"><img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy"></div>
-      <div class="body">
-        <h3>SketchO Wire-O Sketchbook</h3>
-        <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
-        <p class="claim">Wire-O binding that folds a full 360°, with pages that tear out clean.</p>
-        <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated tear-out pages</li><li>Elastic closure</li><li>Black textured hardcover</li></ul>
-        <a class="buy" href="https://www.amazon.com/dp/B0F5G68QTR?maas=maas_adg_0D15A10AAFC64510BD312FB9BE6027FB_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
-      </div>
-    </article>
-    <article class="card">
-      <div class="shot"><img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy"></div>
-      <div class="body">
-        <h3>SketchO Wire-O Sketchbook</h3>
-        <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
-        <p class="claim">The pocket version of the same lay-flat notebook.</p>
-        <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated pages</li><li>Elastic closure</li></ul>
-        <a class="buy" href="https://www.amazon.com/dp/B0F8PGB262?maas=maas_adg_5B0A838D8E79FDDDE8DEE96162773385_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
-      </div>
-    </article>
-    <article class="card">
-      <div class="shot"><img src="img/site/khadi-closed.jpg" alt="Watercolour Paper" loading="lazy"></div>
-      <div class="body">
-        <h3>Watercolour Paper</h3>
-        <p class="size">A5 · 300 GSM · 50 sheets</p>
-        <p class="claim">Heavyweight cold-pressed sheets, sized inside and out to resist warping.</p>
-        <ul class="specs"><li>300 GSM, cold pressed</li><li>Natural white</li><li>Both sides usable</li><li>Acid-free and pH neutral</li><li>Watercolour, gouache, poster colour</li></ul>
-        <a class="buy" href="https://www.amazon.com/dp/B0DZSDW2HZ?maas=maas_adg_436F5254CD8006DCCB734CE93460B6CA_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">View on Amazon &rsaquo;</a>
-      </div>
-    </article>
+<div class="hero">
+  <div class="wrap">
+    <div class="brandbar">
+      <img src="img/site/logo.png" alt="Creo Crafts">
+      <nav class="navlinks">
+        <a href="#range">The range</a>
+        <a href="#story">Our story</a>
+        <a href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </div>
+    <h1>Paper worth<em>filling.</em></h1>
+    <p class="lede">Sketchbooks and watercolour paper for people who actually
+    use them &mdash; not the ones saved for a day that never comes.</p>
+    <div class="cta">
+      <a class="btn btn-solid" href="#range">See the range <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-ghost" href="#story">What we make</a>
+    </div>
   </div>
-
-  <h2>What we make</h2>
-  <div class="story">
-    <p>Four papers, each honest about what it is. A khadi-textured hardcover
-    with 200 GSM cartridge inside, heavy enough for ink and a light wash. A
-    Wire-O notebook that folds flat and tears out clean. Cold-pressed
-    watercolour sheets, sized inside and out so they take water without
-    buckling. And 100% cotton rag for the work you intend to keep.</p>
-    <p>We sell through Amazon, so delivery, returns and support are handled
-    there.</p>
-  </div>
-
-  <footer>
-    <p>Creo Crafts LLC · Illinois, USA<br>
-    <a href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">@creocraftsofficial</a></p>
-  </footer>
+  <svg class="tear" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,52 C120,86 240,20 360,40 C480,60 600,88 720,72 C840,56 960,14 1080,28 C1200,42 1320,80 1440,58 L1440,90 L0,90 Z"/>
+  </svg>
 </div>
+
+<div class="marquee" aria-hidden="true"><div>
+  <span>Acid-free</span><span>Lies flat</span><span>Cold pressed</span>
+  <span>Designed in Illinois</span><span>Made in India</span>
+  <span>Acid-free</span><span>Lies flat</span><span>Cold pressed</span>
+  <span>Designed in Illinois</span><span>Made in India</span>
+</div></div>
+
+<section id="range">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The range</p>
+    <h2 data-reveal>Five papers.<br>Each honest about what it is.</h2>
+    <p class="sub" data-reveal>Weights, sheet counts and finishes are printed
+    here exactly as the mill states them &mdash; so you can tell before you buy
+    whether a paper takes the medium you work in.</p>
+    <div class="cascade">
+      <article class="row hue-teal" style="--i:1" data-reveal>
+        <div class="shot">
+          <span class="kicker">Best seller</span>
+          <img src="img/site/khadi-closed.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy">
+        </div>
+        <div class="body">
+          <span class="num">01</span>
+          <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
+          <h3>Khadi Hardcover Sketchbook</h3>
+          <p class="claim">A khadi-textured cover over rigid board, and paper heavy enough to take a wash.</p>
+          <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li><li>Pencil, ink, charcoal, marker, light watercolour</li></ul>
+          <a class="buy" href="https://www.amazon.com/dp/B0DZS7HJ4P?maas=maas_adg_7811DEB21565D3324AF1B83907D06409_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
+            Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
+      <article class="row hue-jade" style="--i:2" data-reveal>
+        <div class="shot">
+          <span class="kicker">Pocket size</span>
+          <img src="img/site/khadi-open.jpg" alt="Khadi Hardcover Sketchbook" loading="lazy">
+        </div>
+        <div class="body">
+          <span class="num">02</span>
+          <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
+          <h3>Khadi Hardcover Sketchbook</h3>
+          <p class="claim">The same cover and paper, sized to carry.</p>
+          <ul class="specs"><li>200 GSM acid-free cartridge paper</li><li>38 sheets / 76 pages</li><li>Hand-stitched binding, opens flat</li><li>Ribbon bookmark</li></ul>
+          <a class="buy" href="https://www.amazon.com/dp/B0DZSH1MKD?maas=maas_adg_34A6B8569FF299BE9F0F6F4197BA867E_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
+            Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
+      <article class="row hue-gold" style="--i:3" data-reveal>
+        <div class="shot">
+          <span class="kicker">Folds 360°</span>
+          <img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy">
+        </div>
+        <div class="body">
+          <span class="num">03</span>
+          <p class="size">A4 Landscape · 11.7 × 8.3 in</p>
+          <h3>SketchO Wire-O Sketchbook</h3>
+          <p class="claim">Wire-O binding that folds a full 360°, with pages that tear out clean.</p>
+          <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated tear-out pages</li><li>Elastic closure</li><li>Black textured hardcover</li></ul>
+          <a class="buy" href="https://www.amazon.com/dp/B0F5G68QTR?maas=maas_adg_0D15A10AAFC64510BD312FB9BE6027FB_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
+            Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
+      <article class="row hue-rust" style="--i:4" data-reveal>
+        <div class="shot">
+          <span class="kicker">Pocket size</span>
+          <img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy">
+        </div>
+        <div class="body">
+          <span class="num">04</span>
+          <p class="size">A5 Landscape · 8.3 × 5.8 in</p>
+          <h3>SketchO Wire-O Sketchbook</h3>
+          <p class="claim">The pocket version of the same lay-flat notebook.</p>
+          <ul class="specs"><li>140 GSM natural-shade cartridge paper</li><li>128 pages / 64 sheets</li><li>Micro-perforated pages</li><li>Elastic closure</li></ul>
+          <a class="buy" href="https://www.amazon.com/dp/B0F8PGB262?maas=maas_adg_5B0A838D8E79FDDDE8DEE96162773385_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
+            Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
+      <article class="row hue-ink" style="--i:5" data-reveal>
+        <div class="shot">
+          <span class="kicker">Heavyweight</span>
+          <img src="img/site/watercolour-pack.jpg" alt="Watercolour Paper Pack" loading="lazy">
+        </div>
+        <div class="body">
+          <span class="num">05</span>
+          <p class="size">A5 · 8.3 × 5.8 in · 300 GSM</p>
+          <h3>Watercolour Paper Pack</h3>
+          <p class="claim">Heavyweight cold-pressed sheets, sized inside and out to resist warping.</p>
+          <ul class="specs"><li>300 GSM (140 lb), cold pressed</li><li>Acid-free and pH neutral</li><li>Both sides usable</li><li>Watercolour, gouache, poster colour</li></ul>
+          <a class="buy" href="https://www.amazon.com/dp/B0DZSDW2HZ?maas=maas_adg_436F5254CD8006DCCB734CE93460B6CA_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
+            Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="wrap">
+    <div class="story" data-reveal>
+      <p class="eyebrow">What we make</p>
+      <h2>Made by a mill that has done this for decades.</h2>
+      <p>A khadi-textured hardcover with 200 GSM cartridge inside, heavy enough
+      for ink and a light wash. A Wire-O notebook that folds a full 360&deg; and
+      tears out clean. Cold-pressed watercolour sheets, sized inside and out so
+      they take water without buckling.</p>
+      <p>We sell through Amazon, so delivery, returns and support are handled
+      there &mdash; by the people who are genuinely best at it.</p>
+      <div class="facts">
+        <div><b>200&ndash;300</b><span>GSM, depending on the paper &mdash; stated, never rounded up</span></div>
+        <div><b>360&deg;</b><span>Wire-O fold, so the book lies flat on any page</span></div>
+        <div><b>0</b><span>Acid. Every sheet is acid-free and pH neutral</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="img/site/mark.png" alt="">
+    <p><strong>Creo Crafts LLC</strong> &middot; Illinois, USA</p>
+    <a class="social" href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">@creocraftsofficial</a>
+    <p style="margin-top:22px">Product links go to our Amazon listings.</p>
+  </div>
+</footer>
+
+<script>
+// Reveal on scroll. Guarded so the page is fully readable if JS never runs —
+// the .in class is the only thing that fades content in, and without JS the
+// reduced-motion rule above is the fallback.
+(function(){
+  var els = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+})();
+</script>
 </body></html>
