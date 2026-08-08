@@ -3,10 +3,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Creo Crafts — Art Supplies for Every Imagination</title>
-<meta name="description" content="Art supplies for every imagination. Sketchbooks and watercolour paper — FSC-certified, biodegradable, acid-free. Designed in Illinois, USA and made responsibly in India.">
+<meta name="description" content="Art supplies for every imagination. Sketchbooks and watercolour paper — FSC-certified, biodegradable, acid-free. A woman-owned brand, designed in Illinois, USA.">
 <meta name="theme-color" content="#1F4643">
 <meta property="og:title" content="Creo Crafts">
-<meta property="og:description" content="Art supplies for every imagination. Designed in Illinois, USA and made responsibly in India.">
+<meta property="og:description" content="Art supplies for every imagination. A woman-owned brand, designed in Illinois, USA.">
 <meta property="og:image" content="https://creocraftsstore.com/img/site/khadi-closed.jpg">
 <link rel="icon" href="img/site/mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -215,6 +215,35 @@ body>#paint-bg{z-index:0}
 .hero>.wrap{z-index:2}
 @media(prefers-reduced-motion:reduce){#paint-bg,#paint-hero{display:none}}
 
+
+/* -------------------------------------------------------------- tagline -- */
+/* The tagline runs through the full paint box rather than the brand's two
+   colours — it is the one place on the page where "every imagination" should
+   look like every colour.
+
+   Guarded by @supports because the effect needs transparent text: without
+   background-clip the headline would render invisible rather than merely
+   plain. Hues are all mid-to-dark so they stay legible over the gold hero
+   gradient and over the dark teal in dark mode. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  h1 em {
+    background-image: linear-gradient(100deg,
+      #E2653C, #DC8C15, #C7A012, #2FB89A,
+      #1F8FD6, #7B4FC0, #E24C86, #E2653C);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    animation: taglineflow 11s linear infinite;
+    /* A hairline dark edge keeps the lighter stops readable on gold. */
+    filter: drop-shadow(0 1px 0 rgba(18, 48, 46, .22));
+  }
+  @keyframes taglineflow { to { background-position: -260% 0; } }
+  @media (prefers-reduced-motion: reduce) { h1 em { animation: none; } }
+}
+
 </style></head>
 <body>
 
@@ -243,9 +272,9 @@ body>#paint-bg{z-index:0}
 
 <div class="marquee" aria-hidden="true"><div>
   <span>FSC-certified</span><span>Biodegradable</span><span>Acid-free</span>
-  <span>Cold pressed</span><span>Designed in Illinois</span><span>Made in India</span>
+  <span>Cold pressed</span><span>Designed in Illinois</span><span>Woman-owned brand</span>
   <span>FSC-certified</span><span>Biodegradable</span><span>Acid-free</span>
-  <span>Cold pressed</span><span>Designed in Illinois</span><span>Made in India</span>
+  <span>Cold pressed</span><span>Designed in Illinois</span><span>Woman-owned brand</span>
 </div></div>
 
 <section id="range">
@@ -345,8 +374,8 @@ body>#paint-bg{z-index:0}
       passion for creativity and sustainability, we carefully source materials
       that respect our planet.</p>
       <p>Our marigold logo symbolises growth, warmth and renewal &mdash; values at
-      the heart of every product we craft. Designed in Illinois, USA and made
-      responsibly in India, our FSC-certified, biodegradable papers blend global
+      the heart of every product we craft. A woman-owned brand designed in
+      Illinois, USA, our FSC-certified, biodegradable papers blend global
       influences with timeless artistry.</p>
       <div class="facts">
         <div><b>FSC</b><span>Certified, biodegradable paper &mdash; sourced with the planet in mind</span></div>
@@ -360,7 +389,7 @@ body>#paint-bg{z-index:0}
 <footer>
   <div class="wrap">
     <img src="img/site/mark.png" alt="">
-    <p><strong>Creo Crafts LLC</strong> &middot; Designed in Illinois, USA &middot; Made responsibly in India</p>
+    <p><strong>Creo Crafts LLC</strong> &middot; A woman-owned brand &middot; Designed in Illinois, USA</p>
     <a class="social" href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">@creocraftsofficial</a>
     <p style="margin-top:22px">Product links go to our Amazon listings.</p>
   </div>
