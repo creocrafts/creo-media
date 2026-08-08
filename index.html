@@ -199,6 +199,22 @@ footer p{color:var(--muted);font-size:14.5px;margin:6px 0}
   border-radius:999px;border:1.5px solid var(--line);text-decoration:none;
   font:600 15px/1 var(--sans);transition:background .2s,color .2s}
 .social:hover{background:var(--teal);color:var(--cream);border-color:var(--teal)}
+
+/* ---------------------------------------------------------------- paint -- */
+/* The background colour moves to <html> so <body> can be transparent and the
+   fixed paint canvas shows through the gutters between the opaque cards. */
+html{background:var(--bg)}
+body{background:transparent}
+#paint-bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+body>*{position:relative;z-index:1}
+body>#paint-bg{z-index:0}
+/* No blend mode: multiply over the gold gradient turned every droplet into a
+   brown speck. Painted straight on, the colours stay themselves. */
+#paint-hero{position:absolute;inset:0;width:100%;height:100%;z-index:1;
+  pointer-events:none}
+.hero>.wrap{z-index:2}
+@media(prefers-reduced-motion:reduce){#paint-bg,#paint-hero{display:none}}
+
 </style></head>
 <body>
 
@@ -364,5 +380,214 @@ footer p{color:var(--muted);font-size:14.5px;margin:6px 0}
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
 })();
+
+/* Flying paint: crisp droplets with tapering trails, plus slow soft washes.
+   Two canvases because the hero has an opaque gradient of its own — a single
+   fixed canvas behind the page would be hidden underneath it.
+
+   Everything here is decoration. It is wrapped so that any failure leaves a
+   perfectly usable page, it stops when off-screen or backgrounded so it costs
+   nothing while reading, and it is disabled outright under reduced-motion. */
+(function () {
+  var reduce = window.matchMedia &&
+               window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  var PALETTE = ['#F2A93B', '#2FB89A', '#E2653C', '#DC8C15', '#FFD98A', '#1F4643'];
+  var TAU = Math.PI * 2;
+  var rand = function (a, b) { return a + Math.random() * (b - a); };
+  var pick = function (a) { return a[(Math.random() * a.length) | 0]; };
+
+  function Paint(canvas, cfg) {
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0, drops = [], washes = [], raf = 0, live = false, t = 0;
+
+    function resize() {
+      var r = canvas.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      canvas.width = (W * dpr) | 0; canvas.height = (H * dpr) | 0;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // A droplet enters from just outside one edge and arcs across.
+    function spawnDrop(x, y, vx, vy, r) {
+      if (drops.length > cfg.maxDrops) return;
+      var edge, sp;
+      if (x === undefined) {
+        edge = (Math.random() * 4) | 0;
+        sp = rand(cfg.speed * 0.55, cfg.speed);
+        if (edge === 0) { x = rand(0, W); y = -20; vx = rand(-sp, sp) * 0.6; vy = sp; }
+        else if (edge === 1) { x = W + 20; y = rand(0, H); vx = -sp; vy = rand(-sp, sp) * 0.6; }
+        else if (edge === 2) { x = rand(0, W); y = H + 20; vx = rand(-sp, sp) * 0.6; vy = -sp; }
+        else { x = -20; y = rand(0, H); vx = sp; vy = rand(-sp, sp) * 0.6; }
+        r = rand(cfg.minR, cfg.maxR);
+      }
+      drops.push({ x: x, y: y, vx: vx, vy: vy, r: r, c: pick(PALETTE),
+                   life: 0, max: rand(120, 260), trail: [] });
+    }
+
+    // Washes are the watercolour half: big, soft, barely-there blooms.
+    function spawnWash() {
+      if (washes.length > cfg.maxWashes) return;
+      washes.push({ x: rand(0, W), y: rand(0, H), r: 1,
+                    to: rand(Math.min(W, H) * 0.18, Math.min(W, H) * 0.42),
+                    c: pick(PALETTE), life: 0, max: rand(320, 560) });
+    }
+
+    function step() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+
+      for (var i = washes.length - 1; i >= 0; i--) {
+        var s = washes[i];
+        s.life++;
+        s.r += (s.to - s.r) * 0.012;
+        var fade = Math.sin((s.life / s.max) * Math.PI);
+        if (s.life > s.max) { washes.splice(i, 1); continue; }
+        var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, Math.max(1, s.r));
+        g.addColorStop(0, s.c);
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.globalAlpha = fade * cfg.washAlpha;
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, TAU); ctx.fill();
+      }
+
+      for (var j = drops.length - 1; j >= 0; j--) {
+        var d = drops[j];
+        d.life++;
+        d.vy += cfg.gravity;
+        d.vx *= 0.995; d.vy *= 0.995;
+        d.x += d.vx; d.y += d.vy;
+        d.trail.push(d.x, d.y);
+        if (d.trail.length > 36) d.trail.splice(0, 2);
+
+        var out = d.x < -80 || d.x > W + 80 || d.y < -80 || d.y > H + 80;
+        if (out || d.life > d.max) { drops.splice(j, 1); continue; }
+        var a = 1 - d.life / d.max;
+
+        // Tapering trail: successive segments get wider toward the head, which
+        // reads as a flick of a loaded brush rather than a uniform line.
+        ctx.strokeStyle = d.c;
+        ctx.lineCap = 'round';
+        for (var k = 0; k < d.trail.length - 2; k += 2) {
+          var f = k / d.trail.length;
+          ctx.globalAlpha = a * f * cfg.dropAlpha * 0.85;
+          ctx.lineWidth = d.r * 2 * f;
+          ctx.beginPath();
+          ctx.moveTo(d.trail[k], d.trail[k + 1]);
+          ctx.lineTo(d.trail[k + 2], d.trail[k + 3]);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = a * cfg.dropAlpha;
+        ctx.fillStyle = d.c;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, TAU); ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      if (t % cfg.dropEvery === 0) spawnDrop();
+      if (t % cfg.washEvery === 0) spawnWash();
+      raf = requestAnimationFrame(step);
+    }
+
+    function start() { if (!live) { live = true; raf = requestAnimationFrame(step); } }
+    function stop() { live = false; cancelAnimationFrame(raf); }
+
+    resize();
+    for (var n = 0; n < cfg.seedWashes; n++) spawnWash();
+    return {
+      resize: resize, start: start, stop: stop,
+      // A click throws paint outward in every direction.
+      splat: function (x, y) {
+        for (var i = 0; i < 16; i++) {
+          var ang = rand(0, TAU), sp = rand(1.6, 6);
+          spawnDrop(x, y, Math.cos(ang) * sp, Math.sin(ang) * sp, rand(1.5, 5));
+        }
+      },
+      // The cursor flicks paint in the direction it is already moving.
+      dab: function (x, y, dx, dy) {
+        var sp = Math.min(Math.sqrt(dx * dx + dy * dy), 26) * 0.12;
+        for (var i = 0; i < 2; i++) {
+          spawnDrop(x, y,
+                    dx * 0.05 + rand(-sp, sp), dy * 0.05 + rand(-sp, sp),
+                    rand(1.2, 3.6));
+        }
+      }
+    };
+  }
+
+  function mount(id, parent, cfg) {
+    var c = document.createElement('canvas');
+    c.id = id; c.setAttribute('aria-hidden', 'true');
+    parent.insertBefore(c, parent.firstChild);
+    return Paint(c, cfg);
+  }
+
+  var hero = document.querySelector('.hero');
+  var bg = mount('paint-bg', document.body, {
+    maxDrops: 80, maxWashes: 6, seedWashes: 4, speed: 1.9, gravity: 0.007,
+    minR: 2, maxR: 8, dropAlpha: 0.66, washAlpha: 0.16,
+    dropEvery: 11, washEvery: 150
+  });
+  var hp = hero ? mount('paint-hero', hero, {
+    maxDrops: 130, maxWashes: 7, seedWashes: 5, speed: 3.1, gravity: 0.014,
+    minR: 2.5, maxR: 13, dropAlpha: 0.82, washAlpha: 0.24,
+    dropEvery: 5, washEvery: 100
+  }) : null;
+
+  var all = [bg, hp].filter(Boolean);
+  if (!all.length) return;
+
+  function each(fn) { all.forEach(fn); }
+  each(function (p) { p.start(); });
+
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { each(function (p) { p.resize(); }); }, 160);
+  });
+
+  // Stop entirely when the tab is hidden — an invisible animation should not
+  // be spending anyone's battery.
+  document.addEventListener('visibilitychange', function () {
+    each(function (p) { document.hidden ? p.stop() : p.start(); });
+  });
+
+  // The hero canvas only runs while the hero is actually on screen.
+  if (hp && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.isIntersecting ? hp.start() : hp.stop(); });
+    }, { threshold: 0 }).observe(hero);
+  }
+
+  // Pointer events land in viewport coordinates. The background canvas is
+  // fixed, so those map straight across; the hero canvas is absolutely
+  // positioned inside the hero, so its origin has to be subtracted.
+  function route(e) {
+    var r = hero ? hero.getBoundingClientRect() : null;
+    if (hp && r && e.clientY >= r.top && e.clientY < r.bottom) {
+      return { p: hp, x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+    return { p: bg, x: e.clientX, y: e.clientY };
+  }
+
+  var last = 0, px = 0, py = 0;
+  window.addEventListener('pointermove', function (e) {
+    var now = Date.now();
+    var dx = e.clientX - px, dy = e.clientY - py;
+    px = e.clientX; py = e.clientY;
+    if (now - last < 32) return;
+    last = now;
+    var t = route(e);
+    t.p.dab(t.x, t.y, dx, dy);
+  }, { passive: true });
+
+  window.addEventListener('click', function (e) {
+    var t = route(e);
+    t.p.splat(t.x, t.y);
+  }, { passive: true });
+})();
+
 </script>
 </body></html>
