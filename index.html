@@ -253,6 +253,24 @@ body>#paint-bg{z-index:0}
   @media (prefers-reduced-motion: reduce) { h1 { animation: none; } }
 }
 
+
+/* ------------------------------------------------------------- gallery -- */
+/* These are the supplier's own photographs of the paper being worked on,
+   used with their permission. They sit in their own band rather than
+   replacing the product shots: the cards must keep showing the Creo-branded
+   pack a buyer actually receives. */
+.gallery{display:grid;gap:clamp(20px,3vw,34px);
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.gallery figure{margin:0;background:var(--card);border:2.5px solid var(--edge);
+  border-radius:6px;box-shadow:10px 10px 0 var(--drop);overflow:hidden;
+  transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s}
+.gallery figure:hover{transform:translate(-5px,-5px);
+  box-shadow:16px 16px 0 var(--gold-deep)}
+.gallery img{display:block;width:100%;height:clamp(240px,32vw,380px);
+  object-fit:cover;background:#fff}
+.gallery figcaption{padding:16px 20px;font-size:14.5px;color:var(--muted);
+  border-top:2.5px solid var(--edge)}
+
 </style></head>
 <body>
 
@@ -344,7 +362,7 @@ body>#paint-bg{z-index:0}
       <article class="row hue-rust" style="--i:4" data-reveal>
         <div class="shot">
           <span class="kicker">Pocket size</span>
-          <img src="img/site/sketcho-cover.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy">
+          <img src="img/site/sketcho-open.jpg" alt="SketchO Wire-O Sketchbook" loading="lazy">
         </div>
         <div class="body">
           <span class="num">04</span>
@@ -363,14 +381,33 @@ body>#paint-bg{z-index:0}
         </div>
         <div class="body">
           <span class="num">05</span>
-          <p class="size">A5 · 8.3 × 5.8 in · 300 GSM</p>
+          <p class="size">A5 · 8.3 × 5.8 in · 36 sheets</p>
           <h3>Watercolour Paper Pack</h3>
           <p class="claim">Heavyweight cold-pressed sheets, sized inside and out to resist warping.</p>
-          <ul class="specs"><li>300 GSM (140 lb), cold pressed</li><li>Acid-free and pH neutral</li><li>Both sides usable</li><li>Watercolour, gouache, poster colour</li></ul>
+          <ul class="specs"><li>300 GSM (140 lb), cold pressed</li><li>36 sheets</li><li>Acid-free and pH neutral</li><li>Both sides usable</li><li>Watercolour, gouache, poster colour</li></ul>
           <a class="buy" href="https://www.amazon.com/dp/B0DZSDW2HZ?maas=maas_adg_436F5254CD8006DCCB734CE93460B6CA_afap_abs&amp;ref_=aa_maas&amp;tag=maas" target="_blank" rel="noopener">
             Shop on Amazon <span aria-hidden="true">&rarr;</span></a>
         </div>
       </article>
+    </div>
+  </div>
+</section>
+
+<section id="in-use">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>In use</p>
+    <h2 data-reveal>Paper is only half of it.</h2>
+    <p class="sub" data-reveal>The rest is what you put on it. These are the
+    same papers we sell, photographed at the mill that makes them.</p>
+    <div class="gallery">
+      <figure data-reveal>
+        <img src="img/site/khadi-in-use.jpg" alt="Sketching a harbour scene in a khadi-cover landscape sketchbook" loading="lazy">
+        <figcaption>200 GSM cartridge, holding a dense ink sketch without bleed.</figcaption>
+      </figure>
+      <figure data-reveal>
+        <img src="img/site/watercolour-art.jpg" alt="Blue and yellow watercolour flowers painted on cold-pressed paper" loading="lazy">
+        <figcaption>300 GSM cold pressed, taking a heavy wash without buckling.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
