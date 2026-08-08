@@ -89,8 +89,8 @@ h1 em{font-style:normal;display:block;color:#fff;
 /* ------------------------------------------------------------- marquee -- */
 .marquee{background:var(--teal);color:var(--cream);overflow:hidden;padding:14px 0;
   font:600 14px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
-.marquee div{display:flex;gap:44px;width:max-content;animation:slide 32s linear infinite}
-.marquee span{white-space:nowrap;display:flex;align-items:center;gap:44px}
+.marquee div{display:flex;gap:58px;width:max-content;animation:slide 38s linear infinite}
+.marquee span{white-space:nowrap;display:flex;align-items:center;gap:58px}
 .marquee span::after{content:"✦";color:var(--gold)}
 @keyframes slide{to{transform:translateX(-50%)}}
 
@@ -226,22 +226,31 @@ body>#paint-bg{z-index:0}
    plain. Hues are all mid-to-dark so they stay legible over the gold hero
    gradient and over the dark teal in dark mode. */
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  h1 em {
+  h1 {
     background-image: linear-gradient(100deg,
       #E2653C, #DC8C15, #C7A012, #2FB89A,
       #1F8FD6, #7B4FC0, #E24C86, #E2653C);
     background-size: 260% 100%;
     -webkit-background-clip: text;
             background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
     animation: taglineflow 11s linear infinite;
+    /* The gradient paints only inside this box, so descenders need room: at
+       line-height .95 the tails of "y" and "g" fell outside it and simply
+       received no paint — they read as cut off rather than coloured. */
+    line-height: 1.02;
+    padding-bottom: .16em;
     /* A hairline dark edge keeps the lighter stops readable on gold. */
     filter: drop-shadow(0 1px 0 rgba(18, 48, 46, .22));
   }
+  /* Both lines take the gradient — the first was inheriting the hero's near
+     black, which is what made "Art supplies for" look unstyled. */
+  h1, h1 em {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
   @keyframes taglineflow { to { background-position: -260% 0; } }
-  @media (prefers-reduced-motion: reduce) { h1 em { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { h1 { animation: none; } }
 }
 
 </style></head>
@@ -271,10 +280,12 @@ body>#paint-bg{z-index:0}
 </div>
 
 <div class="marquee" aria-hidden="true"><div>
-  <span>FSC-certified</span><span>Biodegradable</span><span>Acid-free</span>
-  <span>Cold pressed</span><span>Designed in Illinois</span><span>Woman-owned brand</span>
-  <span>FSC-certified</span><span>Biodegradable</span><span>Acid-free</span>
-  <span>Cold pressed</span><span>Designed in Illinois</span><span>Woman-owned brand</span>
+  <span>Woman-owned brand</span><span>FSC-certified</span><span>Biodegradable</span>
+  <span>Acid-free</span><span>pH neutral</span><span>Cold pressed</span>
+  <span>Lies flat</span><span>Designed in Illinois</span>
+  <span>Woman-owned brand</span><span>FSC-certified</span><span>Biodegradable</span>
+  <span>Acid-free</span><span>pH neutral</span><span>Cold pressed</span>
+  <span>Lies flat</span><span>Designed in Illinois</span>
 </div></div>
 
 <section id="range">
@@ -389,7 +400,7 @@ body>#paint-bg{z-index:0}
 <footer>
   <div class="wrap">
     <img src="img/site/mark.png" alt="">
-    <p><strong>Creo Crafts LLC</strong> &middot; A woman-owned brand &middot; Designed in Illinois, USA</p>
+    <p><strong>Creo Crafts LLC</strong> &middot; Designed in Illinois, USA</p>
     <a class="social" href="https://www.instagram.com/creocraftsofficial/" target="_blank" rel="noopener">@creocraftsofficial</a>
     <p style="margin-top:22px">Product links go to our Amazon listings.</p>
   </div>
